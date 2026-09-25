@@ -3,7 +3,7 @@
 :root{--blue:#1479ee;--navy:#0b2b4b;--ink:#102b4a;--muted:#71839b;--bg:#f7faff;--line:#e4ebf3}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}button,input{font:inherit}button{cursor:pointer}
 .topbar{height:82px;background:#fff;display:grid;grid-template-columns:420px 1fr 438px;align-items:center;padding:0 54px;gap:24px;position:sticky;top:0;z-index:30;box-shadow:0 1px 0 rgba(14,44,75,.06)}
-.identity{display:flex;align-items:center;gap:16px}.logo{width:70px;height:56px;color:#176fd1}.identity b{font-size:20px;letter-spacing:.01em;display:block}.identity small{font-size:14px;color:#526b87;display:block;margin-top:2px}
+.identity{display:flex;align-items:center;gap:16px}.logo{width:70px;height:56px;color:#176fd1}.identity b{font-size:20px;letter-spacing:.01em;display:block}.identity small{font-size:14px;color:#526b87;display:block;margin-top:2px}.identity .collection-start{font-size:11px;color:#7b8ea3;margin-top:3px;font-weight:600}
 .nav{display:flex;justify-content:center;gap:18px}.nav button{border:0;background:transparent;color:#173451;border-radius:13px;padding:14px 18px;font-weight:600;display:flex;align-items:center;gap:9px}.nav button.active{background:#eaf4ff;color:var(--blue)}.nav button:hover{background:#f1f6fb}
 .topsearch{height:50px;background:#f1f5f9;border-radius:18px;display:flex;align-items:center;padding:0 18px;gap:12px}.topsearch input{border:0;outline:0;background:transparent;width:100%;color:#51657c}
 .hero{height:555px;position:relative;background-image:linear-gradient(90deg,rgba(4,32,59,.96) 0%,rgba(5,35,63,.86) 30%,rgba(6,38,66,.43) 49%,rgba(6,38,66,.03) 69%),url('2229268.jpg'),url('https://www.rio.rj.gov.br/igstatic/22/29/25/2229256.jpg');background-size:cover;background-position:center center;display:flex;align-items:flex-start;padding:62px 4.4vw 0;color:#fff}
@@ -16,7 +16,20 @@ footer{text-align:center;padding:30px;color:#71839a;border-top:1px solid var(--l
 @media(max-width:780px){.topbar{height:68px;padding:0 16px;grid-template-columns:1fr 50px}.identity .logo{width:48px}.identity b{font-size:15px}.identity small{font-size:11px}.nav{display:none}.topsearch{width:46px;padding:0;justify-content:center}.topsearch input{display:none}.hero{height:auto;min-height:620px;padding:48px 22px 0;background-position:58% center;margin-bottom:330px}.hero-content{width:100%}.eyebrow{font-size:13px}.hero h1{font-size:44px}.hero h2{font-size:24px}.hero p{font-size:16px}.main-search{height:58px}.main-search button{height:48px;padding:0 20px}.cards{left:16px;right:16px;bottom:-355px;grid-template-columns:1fr 1fr;gap:10px}.card{height:108px;padding:13px;grid-template-columns:45px 1fr 12px}.card .ico{width:42px;height:42px}.card:last-child{grid-column:1/-1}.library{margin-top:30px}}
 </style></head><body>
 <header class="topbar">
-<div class="identity"><svg class="logo" viewBox="0 0 80 62" aria-hidden="true"><path fill="currentColor" d="M40 2 8 17v38h64V17L40 2Zm0 8 10 5v9H30v-9l10-5ZM16 22h10v10H16V22Zm38 0h10v10H54V22ZM16 38h10v10H16V38Zm38 0h10v10H54V38ZM33 30h14v18H33V30Z"/><path fill="#fff" d="M37 33h6v12h-6zM34 36h12v6H34z"/></svg><div><b>NOTAS TÉCNICAS — SVM</b><small>Clínica da Família Sérgio Vieira de Mello</small></div></div>
+<div class="identity"><svg class="logo" viewBox="0 0 96 64" aria-label="Ícone da Clínica da Família Sérgio Vieira de Mello">
+<g fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M6 51h84"/>
+<path d="M10 25 48 10l39 15"/>
+<path d="M13 25v26M48 10v41M87 25v26"/>
+<path d="M13 25h74"/>
+<path d="M22 25v26M34 25v26M61 25v26M74 25v26"/>
+<path d="M38 51V31h10"/>
+</g>
+<g fill="currentColor">
+<rect x="24" y="34" width="12" height="4" rx="1"/>
+<rect x="28" y="30" width="4" height="12" rx="1"/>
+</g>
+</svg><div><b>NOTAS TÉCNICAS — SVM</b><small>Clínica da Família Sérgio Vieira de Mello</small><small class="collection-start">Acervo incorporado a partir de 25/09/2026</small></div></div>
 <nav class="nav"><button class="active" data-go="inicio">⌂ <span>Início</span></button><button data-go="biblioteca">▤ <span>Notas Técnicas</span></button><button data-query="Categorias">◇ <span>Categorias</span></button><button data-query="Favoritos">☆ <span>Favoritos</span></button><button data-go="sobre">ⓘ <span>Sobre</span></button></nav>
 <div class="topsearch">⌕<input id="topq" placeholder="Buscar notas técnicas..."></div>
 </header>
