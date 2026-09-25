@@ -3,7 +3,7 @@
 :root{--blue:#1479ee;--navy:#0b2b4b;--ink:#102b4a;--muted:#71839b;--bg:#f7faff;--line:#e4ebf3}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}button,input{font:inherit}button{cursor:pointer}
 .topbar{height:82px;background:#fff;display:grid;grid-template-columns:420px 1fr 438px;align-items:center;padding:0 54px;gap:24px;position:sticky;top:0;z-index:30;box-shadow:0 1px 0 rgba(14,44,75,.06)}
-.identity{display:flex;align-items:center;gap:16px}.logo{width:70px;height:56px;color:#176fd1}.identity b{font-size:20px;letter-spacing:.01em;display:block}.identity small{font-size:14px;color:#526b87;display:block;margin-top:2px}.identity .collection-start{font-size:11px;color:#7b8ea3;margin-top:3px;font-weight:600}
+.identity{display:flex;align-items:center;gap:16px}.logo{width:78px;height:56px;object-fit:contain;display:block}.identity b{font-size:20px;letter-spacing:.01em;display:block}.identity small{font-size:14px;color:#526b87;display:block;margin-top:2px}.identity .collection-start{font-size:11px;color:#7b8ea3;margin-top:3px;font-weight:600}
 .nav{display:flex;justify-content:center;gap:18px}.nav button{border:0;background:transparent;color:#173451;border-radius:13px;padding:14px 18px;font-weight:600;display:flex;align-items:center;gap:9px}.nav button.active{background:#eaf4ff;color:var(--blue)}.nav button:hover{background:#f1f6fb}
 .topsearch{height:50px;background:#f1f5f9;border-radius:18px;display:flex;align-items:center;padding:0 18px;gap:12px}.topsearch input{border:0;outline:0;background:transparent;width:100%;color:#51657c}
 .hero{height:555px;position:relative;background-image:linear-gradient(90deg,rgba(4,32,59,.96) 0%,rgba(5,35,63,.86) 30%,rgba(6,38,66,.43) 49%,rgba(6,38,66,.03) 69%),url('2229268.jpg'),url('https://www.rio.rj.gov.br/igstatic/22/29/25/2229256.jpg');background-size:cover;background-position:center center;display:flex;align-items:flex-start;padding:62px 4.4vw 0;color:#fff}
@@ -17,27 +17,7 @@ footer{text-align:center;padding:30px;color:#71839a;border-top:1px solid var(--l
 @media(max-width:780px){.detail-grid{grid-template-columns:1fr}.flow iframe{height:440px}.topbar{height:68px;padding:0 16px;grid-template-columns:1fr 50px}.identity .logo{width:48px}.identity b{font-size:15px}.identity small{font-size:11px}.nav{display:none}.topsearch{width:46px;padding:0;justify-content:center}.topsearch input{display:none}.hero{height:auto;min-height:620px;padding:48px 22px 0;background-position:58% center;margin-bottom:330px}.hero-content{width:100%}.eyebrow{font-size:13px}.hero h1{font-size:44px}.hero h2{font-size:24px}.hero p{font-size:16px}.main-search{height:58px}.main-search button{height:48px;padding:0 20px}.cards{left:16px;right:16px;bottom:-355px;grid-template-columns:1fr 1fr;gap:10px}.card{height:108px;padding:13px;grid-template-columns:45px 1fr 12px}.card .ico{width:42px;height:42px}.card:last-child{grid-column:1/-1}.library{margin-top:30px}}
 </style></head><body>
 <header class="topbar">
-<div class="identity"><svg class="logo" viewBox="0 0 112 72" aria-label="Fachada SVM">
-<g fill="#176fd1">
-  <path d="M5 57h101v5H5z"/>
-  <path d="M8 29 57 9l48 19v6L57 16 8 35z"/>
-  <path d="M10 32h8v25h-8zM28 27h7v30h-7zM55 17h7v40h-7zM79 25h7v32h-7zM99 31h6v26h-6z"/>
-  <path d="M18 32h10v5H18zM35 27h20v5H35zM62 25h17v5H62zM86 30h13v5H86z"/>
-  <path d="M38 37h17v20H38z"/>
-  <path d="M16 43h12v14H16zM62 35h17v22H62zM86 37h13v20H86z"/>
-</g>
-<g fill="#fff">
-  <path d="M41 40h11v17H41z"/>
-  <path d="M20 46h5v8h-5zM66 39h9v15h-9zM89 41h7v13h-7z"/>
-</g>
-<g fill="#176fd1">
-  <circle cx="9" cy="24" r="5"/><circle cx="14" cy="20" r="6"/><circle cx="20" cy="23" r="5"/><circle cx="5" cy="28" r="4"/>
-</g>
-<g fill="#fff">
-  <rect x="20" y="39" width="12" height="4" rx=".5"/>
-  <rect x="24" y="35" width="4" height="12" rx=".5"/>
-</g>
-</svg><div><b>NOTAS TÉCNICAS — SVM</b><small>Clínica da Família Sérgio Vieira de Mello</small><small class="collection-start">Acervo incorporado a partir de 25/09/2026</small></div></div>
+<div class="identity"><img class="logo" src="fachada-svm-icone-1.jpg" alt="Fachada da Clínica da Família Sérgio Vieira de Mello"><div><b>NOTAS TÉCNICAS — SVM</b><small>Clínica da Família Sérgio Vieira de Mello</small><small class="collection-start">Acervo incorporado a partir de 25/09/2026</small></div></div>
 <nav class="nav"><button class="active" data-go="inicio">⌂ <span>Início</span></button><button data-go="biblioteca">▤ <span>Notas Técnicas</span></button><button data-query="Categorias">◇ <span>Categorias</span></button><button data-query="Favoritos">☆ <span>Favoritos</span></button><button data-go="sobre">ⓘ <span>Sobre</span></button></nav>
 <div class="topsearch">⌕<input id="topq" placeholder="Buscar notas técnicas..."></div>
 </header>
