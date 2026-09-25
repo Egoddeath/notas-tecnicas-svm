@@ -1,127 +1,38 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NOTAS TÉCNICAS — SVM</title>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NOTAS TÉCNICAS — SVM</title>
 <style>
-:root{--navy:#123451;--navy2:#0d2c47;--blue:#1f79ad;--blue2:#2e8ec0;--ink:#17324a;--muted:#687b8b;--bg:#f5f8fa;--card:#fff;--line:#dce6ec;--soft:#edf5f9;--green:#18705f}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-button,input,select{font:inherit}button{cursor:pointer}
-header{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,5vw);position:sticky;top:0;z-index:20}
-.brand{font-weight:850;letter-spacing:.02em}.brand span{color:var(--blue)}
-nav{display:flex;gap:28px;font-size:14px;color:#526879}nav a{color:inherit;text-decoration:none}nav a:hover{color:var(--blue)}
-main{max-width:1240px;margin:auto;padding:30px 24px 80px}
-.hero{min-height:410px;border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1.08fr .92fr;background:var(--navy);box-shadow:0 14px 40px #173b3318}
-.hero-copy{padding:48px 48px 42px;display:flex;flex-direction:column;justify-content:center;color:#fff;position:relative;z-index:2}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a9d9f3;margin-bottom:13px}
-.clinic{font-size:clamp(28px,4vw,46px);line-height:1.04;font-weight:850;color:#8fd1f5;margin-bottom:15px}
-.hero h1{font-size:clamp(34px,5vw,57px);line-height:1.02;margin:0 0 17px;max-width:650px}
-.hero p{font-size:17px;line-height:1.55;color:#dceaf2;max-width:650px;margin:0}
-.hero-art{position:relative;min-height:410px;background:
-linear-gradient(90deg,var(--navy) 0%,rgba(18,52,81,.35) 30%,rgba(18,52,81,.04) 62%),
-url('https://www.rio.rj.gov.br/igstatic/22/29/25/2229256.jpg') center/cover no-repeat}
-.hero-art:after{content:"";position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(0deg,rgba(8,36,58,.36),transparent)}
-.search-wrap{position:relative;z-index:5;margin:-34px auto 0;width:min(92%,960px)}
-.search{display:flex;background:#fff;border:1px solid #d5e2e9;border-radius:15px;padding:8px;box-shadow:0 12px 34px rgba(20,50,70,.16)}
-.search input{border:0;outline:0;flex:1;padding:15px 17px;font-size:16px;min-width:0}.search button{border:0;border-radius:10px;background:var(--blue);color:#fff;padding:0 27px;font-weight:750}.search button:hover{background:#176b9b}
-.shortcuts{padding-top:58px}.section-title{text-align:center;margin-bottom:22px}.section-title h2{font-size:23px;margin:0 0 7px}.section-title p{margin:0;color:var(--muted);font-size:14px}
-.shortcut-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.shortcut{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px 15px;text-align:center;color:var(--ink);transition:.18s;min-height:118px}
-.shortcut:hover{transform:translateY(-2px);border-color:#8ebbd3;box-shadow:0 9px 22px rgba(25,71,100,.09)}
-.shortcut .ico{width:40px;height:40px;border-radius:10px;background:var(--soft);color:var(--blue);display:grid;place-items:center;margin:0 auto 11px;font-size:20px}.shortcut b{display:block;font-size:14px}.shortcut small{display:block;color:var(--muted);margin-top:5px;line-height:1.25}
-.workspace{display:grid;grid-template-columns:250px 1fr;gap:22px;margin-top:46px;scroll-margin-top:90px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:15px}.filters{padding:20px}.filters h3{margin:0 0 18px;font-size:17px}.filter{margin:0 0 16px}.filter label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:#728391;margin-bottom:6px}.filter select{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px;color:#405767}
-.library{padding:22px}.library-head{display:flex;align-items:end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:15px}.library-head h2{margin:0;font-size:21px}.library-head span{font-size:13px;color:var(--muted)}
-.empty{text-align:center;padding:48px 24px 35px}.empty-icon{width:56px;height:56px;background:var(--soft);color:var(--blue);border-radius:50%;display:grid;place-items:center;margin:auto;font-size:25px}.empty h3{margin:15px 0 7px}.empty p{color:var(--muted);max-width:580px;margin:0 auto;line-height:1.5}
-.quick{margin-top:46px}.issuer-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.issuer{border:1px solid var(--line);background:#fff;color:#425b6c;border-radius:999px;padding:9px 15px}.issuer:hover{border-color:var(--blue);color:var(--blue)}
-footer{border-top:1px solid var(--line);padding:30px;text-align:center;color:var(--muted);font-size:13px}
-@media(max-width:900px){.shortcut-grid{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}.hero-art{min-height:210px}.hero-copy{padding:40px 34px 52px}.workspace{grid-template-columns:1fr}.filters{display:none}}
-@media(max-width:640px){header{height:64px}nav{display:none}main{padding:18px 14px 60px}.hero{border-radius:17px}.hero-copy{padding:34px 24px 50px}.hero-art{min-height:180px}.hero p{font-size:15px}.search-wrap{margin-top:-29px}.search{padding:6px}.search input{font-size:14px;padding:13px 10px}.search button{padding:0 15px}.shortcuts{padding-top:48px}.shortcut-grid{grid-template-columns:repeat(2,1fr)}.shortcut:last-child{grid-column:1/-1}.library{padding:17px}.library-head{align-items:flex-start;gap:10px;flex-direction:column}}
-</style>
-</head>
-<body>
-<header>
-  <div class="brand">NOTAS TÉCNICAS <span>— SVM</span></div>
-  <nav><a href="#biblioteca">Biblioteca</a><a href="#atalhos">Temas</a><a href="#orgaos">Órgãos emissores</a><a href="#sobre">Sobre</a></nav>
+:root{--blue:#1479ee;--navy:#0b2b4b;--ink:#102b4a;--muted:#71839b;--bg:#f7faff;--line:#e4ebf3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}button,input{font:inherit}button{cursor:pointer}
+.topbar{height:82px;background:#fff;display:grid;grid-template-columns:420px 1fr 438px;align-items:center;padding:0 54px;gap:24px;position:sticky;top:0;z-index:30;box-shadow:0 1px 0 rgba(14,44,75,.06)}
+.identity{display:flex;align-items:center;gap:16px}.logo{width:70px;height:56px;color:#176fd1}.identity b{font-size:20px;letter-spacing:.01em;display:block}.identity small{font-size:14px;color:#526b87;display:block;margin-top:2px}
+.nav{display:flex;justify-content:center;gap:18px}.nav button{border:0;background:transparent;color:#173451;border-radius:13px;padding:14px 18px;font-weight:600;display:flex;align-items:center;gap:9px}.nav button.active{background:#eaf4ff;color:var(--blue)}.nav button:hover{background:#f1f6fb}
+.topsearch{height:50px;background:#f1f5f9;border-radius:18px;display:flex;align-items:center;padding:0 18px;gap:12px}.topsearch input{border:0;outline:0;background:transparent;width:100%;color:#51657c}
+.hero{height:555px;position:relative;background-image:linear-gradient(90deg,rgba(4,32,59,.96) 0%,rgba(5,35,63,.86) 30%,rgba(6,38,66,.43) 49%,rgba(6,38,66,.03) 69%),url('2229268.jpg'),url('https://www.rio.rj.gov.br/igstatic/22/29/25/2229256.jpg');background-size:cover;background-position:center center;display:flex;align-items:flex-start;padding:62px 4.4vw 0;color:#fff}
+.hero-content{width:min(850px,58vw)}.eyebrow{font-size:20px;letter-spacing:.17em;font-weight:750;color:#d1e8ff;margin-bottom:13px}.hero h1{font-size:clamp(50px,4.8vw,78px);line-height:.99;margin:0;font-weight:850;letter-spacing:-.035em}.hero h1 span{color:#83c7ff}.hero h2{font-size:32px;margin:20px 0 10px;letter-spacing:-.02em}.hero p{font-size:21px;line-height:1.5;color:#e4edf7;margin:0;max-width:760px}
+.main-search{height:66px;margin-top:28px;background:#fff;border-radius:34px;display:flex;align-items:center;padding:5px 6px 5px 24px;box-shadow:0 10px 25px rgba(3,23,42,.16);max-width:910px}.main-search input{border:0;outline:0;flex:1;min-width:0;font-size:17px;color:#4d647d;padding:0 14px}.main-search button{border:0;background:linear-gradient(180deg,#258bff,#0872e8);color:#fff;font-size:18px;font-weight:750;height:56px;padding:0 47px;border-radius:24px}
+.cards{position:absolute;left:3.5vw;right:3.5vw;bottom:-88px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.card{height:132px;border:0;background:rgba(255,255,255,.97);border-radius:16px;box-shadow:0 12px 28px rgba(22,52,80,.10);display:grid;grid-template-columns:58px 1fr 18px;gap:12px;align-items:center;text-align:left;padding:20px 18px;transition:.18s}.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(22,52,80,.15)}.card .ico{width:52px;height:52px;border-radius:13px;display:grid;place-items:center;font-size:25px}.card:nth-child(1) .ico{background:#e6f2ff;color:#1681ef}.card:nth-child(2) .ico{background:#e4f8f1;color:#12a878}.card:nth-child(3) .ico{background:#fff0e5;color:#ff7a1a}.card:nth-child(4) .ico{background:#f1eaff;color:#8254e8}.card:nth-child(5) .ico{background:#edf2f7;color:#526d89}.card b{display:block;font-size:15px;line-height:1.25}.card small{display:block;font-size:13px;line-height:1.4;color:#73869d;margin-top:7px}.arrow{font-size:26px;color:#91a3b7}
+.library{max-width:1180px;margin:130px auto 70px;padding:0 24px;scroll-margin-top:100px}.library-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}.library h2{margin:0;font-size:25px}.library-head span{color:#74879c}.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:32px}.empty{text-align:center;color:#71839a}.empty b{color:#173451;font-size:18px;display:block;margin-bottom:7px}
+footer{text-align:center;padding:30px;color:#71839a;border-top:1px solid var(--line);font-size:13px}
+@media(max-width:1200px){.topbar{grid-template-columns:320px 1fr 300px;padding:0 25px}.identity b{font-size:17px}.nav{gap:4px}.nav button{padding:12px 10px}.cards{grid-template-columns:repeat(3,1fr);bottom:-225px}.hero{margin-bottom:140px}.hero-content{width:70vw}}
+@media(max-width:780px){.topbar{height:68px;padding:0 16px;grid-template-columns:1fr 50px}.identity .logo{width:48px}.identity b{font-size:15px}.identity small{font-size:11px}.nav{display:none}.topsearch{width:46px;padding:0;justify-content:center}.topsearch input{display:none}.hero{height:auto;min-height:620px;padding:48px 22px 0;background-position:58% center;margin-bottom:330px}.hero-content{width:100%}.eyebrow{font-size:13px}.hero h1{font-size:44px}.hero h2{font-size:24px}.hero p{font-size:16px}.main-search{height:58px}.main-search button{height:48px;padding:0 20px}.cards{left:16px;right:16px;bottom:-355px;grid-template-columns:1fr 1fr;gap:10px}.card{height:108px;padding:13px;grid-template-columns:45px 1fr 12px}.card .ico{width:42px;height:42px}.card:last-child{grid-column:1/-1}.library{margin-top:30px}}
+</style></head><body>
+<header class="topbar">
+<div class="identity"><svg class="logo" viewBox="0 0 80 62" aria-hidden="true"><path fill="currentColor" d="M40 2 8 17v38h64V17L40 2Zm0 8 10 5v9H30v-9l10-5ZM16 22h10v10H16V22Zm38 0h10v10H54V22ZM16 38h10v10H16V38Zm38 0h10v10H54V38ZM33 30h14v18H33V30Z"/><path fill="#fff" d="M37 33h6v12h-6zM34 36h12v6H34z"/></svg><div><b>NOTAS TÉCNICAS — SVM</b><small>Clínica da Família Sérgio Vieira de Mello</small></div></div>
+<nav class="nav"><button class="active" data-go="inicio">⌂ <span>Início</span></button><button data-go="biblioteca">▤ <span>Notas Técnicas</span></button><button data-query="Categorias">◇ <span>Categorias</span></button><button data-query="Favoritos">☆ <span>Favoritos</span></button><button data-go="sobre">ⓘ <span>Sobre</span></button></nav>
+<div class="topsearch">⌕<input id="topq" placeholder="Buscar notas técnicas..."></div>
 </header>
-<main>
-  <section class="hero">
-    <div class="hero-copy">
-      <div class="eyebrow">Biblioteca clínica inteligente</div>
-      <div class="clinic">Clínica da Família<br>Sérgio Vieira de Mello</div>
-      <h1>Encontre a nota certa quando precisar.</h1>
-      <p>Notas Técnicas e documentos institucionais organizados para consulta rápida pela equipe da Clínica da Família Sérgio Vieira de Mello.</p>
-    </div>
-    <div class="hero-art" role="img" aria-label="Clínica da Família Sérgio Vieira de Mello"></div>
-  </section>
-
-  <div class="search-wrap">
-    <div class="search">
-      <input id="q" autocomplete="off" placeholder="Buscar por tema, procedimento, população, medicamento, número da nota...">
-      <button type="button" onclick="runSearch()">Buscar</button>
-    </div>
-  </div>
-
-  <section class="shortcuts" id="atalhos">
-    <div class="section-title"><h2>Acesso rápido</h2><p>Escolha uma área para começar a procurar.</p></div>
-    <div class="shortcut-grid">
-      <button class="shortcut" data-query="condições clínicas"><span class="ico">✚</span><b>Condições clínicas</b><small>Hipertensão, diabetes e outros temas</small></button>
-      <button class="shortcut" data-query="ciclos de vida"><span class="ico">◉</span><b>Ciclos de vida</b><small>Criança, adolescente, adulto e idoso</small></button>
-      <button class="shortcut" data-query="procedimentos"><span class="ico">⌁</span><b>Procedimentos</b><small>Coleta, rastreamento e cuidado</small></button>
-      <button class="shortcut" data-query="programas de cuidado"><span class="ico">▦</span><b>Programas de cuidado</b><small>Linhas e programas assistenciais</small></button>
-      <button class="shortcut" data-query="documentos institucionais"><span class="ico">▤</span><b>Documentos institucionais</b><small>Notas, orientações e normativas</small></button>
-    </div>
-  </section>
-
-  <section class="workspace" id="biblioteca">
-    <aside class="panel filters">
-      <h3>Filtrar biblioteca</h3>
-      <div class="filter"><label>Ano</label><select><option>Todos</option></select></div>
-      <div class="filter"><label>Órgão emissor</label><select><option>Todos</option></select></div>
-      <div class="filter"><label>Tipo de documento</label><select><option>Todos</option></select></div>
-      <div class="filter"><label>Tema</label><select><option>Todos</option></select></div>
-      <div class="filter"><label>População</label><select><option>Todas</option></select></div>
-      <div class="filter"><label>Abrangência</label><select><option>Todas</option></select></div>
-      <div class="filter"><label>Status</label><select><option>Todos</option></select></div>
-    </aside>
-    <section class="panel library">
-      <div class="library-head"><h2>Biblioteca</h2><span id="count">0 documentos cadastrados</span></div>
-      <div class="empty" id="empty">
-        <div class="empty-icon">⌕</div>
-        <h3 id="empty-title">A biblioteca está pronta para a primeira nota.</h3>
-        <p id="empty-text">Quando você enviar o primeiro documento, ele será cadastrado com metadados, resumo, categorias, tags e acesso ao original.</p>
-      </div>
-    </section>
-  </section>
-
-  <section class="quick" id="orgaos">
-    <div class="section-title"><h2>Acesso por órgão emissor</h2><p>Atalhos preparados para crescer junto com o acervo.</p></div>
-    <div class="issuer-row">
-      <button class="issuer" data-query="Ministério da Saúde">Ministério da Saúde</button>
-      <button class="issuer" data-query="SMS-Rio">SMS-Rio</button>
-      <button class="issuer" data-query="SES-RJ">SES-RJ</button>
-      <button class="issuer" data-query="INCA">INCA</button>
-    </div>
-  </section>
-
-  <section class="quick" id="sobre">
-    <div class="section-title"><h2>Sobre a biblioteca</h2><p>Repositório documental independente para recuperação rápida de documentos relevantes à prática em saúde.</p></div>
-  </section>
-</main>
+<section class="hero" id="inicio"><div class="hero-content"><div class="eyebrow">BIBLIOTECA CLÍNICA INTELIGENTE</div><h1>Clínica da Família<br><span>Sérgio Vieira de Mello</span></h1><h2>Encontre a nota certa quando precisar.</h2><p>Notas Técnicas e documentos institucionais organizados para consulta rápida pela equipe da Clínica da Família Sérgio Vieira de Mello.</p><div class="main-search"><span style="font-size:26px;color:#183b5d">⌕</span><input id="q" placeholder="Buscar por tema, palavra-chave, data ou documento..."><button onclick="runSearch()">Buscar</button></div></div>
+<div class="cards">
+<button class="card" data-query="Condições Clínicas"><span class="ico">♧</span><span><b>Condições Clínicas</b><small>HTA, DM, saúde mental, infecções e mais</small></span><span class="arrow">›</span></button>
+<button class="card" data-query="Ciclos de Vida"><span class="ico">♟</span><span><b>Ciclos de Vida</b><small>Criança, adolescente, adulto, idoso</small></span><span class="arrow">›</span></button>
+<button class="card" data-query="Procedimentos"><span class="ico">✎</span><span><b>Procedimentos</b><small>Imunizações, pequenos procedimentos, rastreamento</small></span><span class="arrow">›</span></button>
+<button class="card" data-query="Programas e Linhas de Cuidado"><span class="ico">▤</span><span><b>Programas e Linhas de Cuidado</b><small>Saúde da mulher, saúde do homem, crônicos e mais</small></span><span class="arrow">›</span></button>
+<button class="card" data-query="Documentos Institucionais"><span class="ico">▥</span><span><b>Documentos Institucionais</b><small>Notas técnicas, fluxos, protocolos e orientações</small></span><span class="arrow">›</span></button>
+</div></section>
+<main class="library" id="biblioteca"><div class="library-head"><h2>Notas Técnicas</h2><span>0 documentos cadastrados</span></div><div class="panel empty"><b id="emptyTitle">A biblioteca está pronta para a primeira nota.</b><span id="emptyText">Os resultados da busca e os documentos cadastrados aparecerão aqui.</span></div></main>
+<section id="sobre" style="max-width:1180px;margin:0 auto 70px;padding:0 24px"><div class="panel"><b>Sobre a biblioteca</b><p style="color:#71839a;margin-bottom:0">Repositório documental independente da Clínica da Família Sérgio Vieira de Mello.</p></div></section>
 <footer>NOTAS TÉCNICAS — SVM · Clínica da Família Sérgio Vieira de Mello</footer>
 <script>
-const q=document.getElementById('q');
-function runSearch(term){
-  const value=(term||q.value).trim();
-  if(term) q.value=term;
-  document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'});
-  if(value){
-    document.getElementById('empty-title').textContent='Nenhum documento cadastrado ainda.';
-    document.getElementById('empty-text').textContent='A busca por “'+value+'” já está preparada. Os resultados aparecerão aqui assim que começarmos a cadastrar as Notas Técnicas.';
-  }
-}
-q.addEventListener('keydown',e=>{if(e.key==='Enter')runSearch()});
-document.querySelectorAll('[data-query]').forEach(el=>el.addEventListener('click',()=>runSearch(el.dataset.query)));
-</script>
-</body></html>
+const q=document.getElementById('q'),topq=document.getElementById('topq');
+function runSearch(v){v=(v||q.value||topq.value).trim();if(v){q.value=v;topq.value=v;document.getElementById('emptyTitle').textContent='Nenhum documento cadastrado ainda.';document.getElementById('emptyText').textContent='A busca por “'+v+'” já está preparada. Os resultados aparecerão aqui quando o acervo for cadastrado.'}document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})}
+[q,topq].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')runSearch(el.value)}));document.querySelectorAll('[data-query]').forEach(el=>el.onclick=()=>runSearch(el.dataset.query));document.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>document.getElementById(el.dataset.go).scrollIntoView({behavior:'smooth'}));
+</script></body></html>
